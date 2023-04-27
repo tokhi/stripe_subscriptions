@@ -13,6 +13,13 @@ e.g;
 STRIPE_API_KEY='my-stripe-key'
 ```
 
+Run rspec tests:
+
+```
+rspec
+```
+
+
 ## Start the server
 
 ```
