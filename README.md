@@ -1,24 +1,65 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Basic stripe web hook to sync the subscriptions in the local db.
 
-Things you may want to cover:
+# Setup
+```bash
+rails db:setup
+```
 
-* Ruby version
+Add your stripe key to the `.env` file
+e.g;
+```
+STRIPE_API_KEY='my-stripe-key'
+```
 
-* System dependencies
+## Start the server
 
-* Configuration
+```
+rails s
+```
 
-* Database creation
+Use the stripe UI or download the client to register the web hook.
 
-* Database initialization
+e.g: Macos
+```
+brew install stripe/stripe-cli/stripe
+```
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+### Using the stripe client
+```
+stripe login
+```
+Listen to stripe events using the web hook
 
-* ...
+```
+stripe listen --forward-to localhost:3000/api/subscriptions
+```
+Use the stripe UI or the stripe client to triggers events
+
+```
+stripe trigger customer.subscription.created
+```
+
+Subscriptions should be inserted into the database
+
+login to rails console to check
+
+```
+rails c
+```
+and then
+
+```ruby
+Subscription.count
+```
+
+
+## References
+- https://stripe.com/docs/api/events
+- https://github.com/stripe/stripe-ruby/
+- https://www.rubydoc.info/gems/stripe_event/1.5.1
+- https://stripe.com/docs/billing/subscriptions/webhooks
+
